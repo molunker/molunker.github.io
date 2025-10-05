@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的软件下载平台</title>
+    <style>
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .software-list {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .software-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #eee;
+        }
+        .software-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .software-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .software-desc {
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>我的软件下载平台</h1>
+    <div class="software-list">
+        <!-- 软件1 -->
+        <div class="software-item">
+            <div class="software-name">youmu.exe</div>
+            <div class="software-desc">youmu==kawaii</div>
+            <a href="youmu.exe" class="download-btn">点击下载</a>
+        </div>
+        <!-- 软件2 -->
+        <div class="software-item">
+            <div class="software-name">hachimi</div>
+            <div class="software-desc">WCSNDM</div>
+            <a href="note_v2.exe" class="download-btn">点击下载</a>
+        </div>
+        <!-- 可根据需要添加更多软件条目 -->
+    </div>
+</body>
+</html>
