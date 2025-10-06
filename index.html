@@ -3,77 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的软件下载平台</title>
+    <title>molunkerの软件下载</title>
+    <link rel="stylesheet" href="static/css/main.css">
+    <script src="static/js/scripts.js"></script>
     <style>
         body {
-            font-family: "Microsoft Yahei", sans-serif;
+            font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #222;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            position: relative;
         }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8); /* 提高透明度 */
+            z-index: -1;
         }
-        .software-list {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        
+        .download-container {
+            margin: 30px 0;
             padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.8); /* 提高透明度 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
         }
-        .software-item {
+        
+        .download-title {
+            color: #2c3e50;
+            border-bottom: 2px solid rgba(76, 175, 80, 0.9);
+            padding-bottom: 10px;
             margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed #eee;
         }
-        .software-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
+        
+        .download-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(221, 221, 221, 0.8);
+        }
+        
+        .download-item:last-child {
             border-bottom: none;
         }
-        .software-name {
-            font-size: 18px;
-            font-weight: bold;
+        
+        .download-item h3 {
             color: #2c3e50;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
         }
-        .software-desc {
-            color: #666;
-            margin-bottom: 12px;
-            line-height: 1.5;
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
+        
         .download-btn {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #3498db;
-            color: #fff;
             text-decoration: none;
             border-radius: 4px;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 150px;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .download-btn:hover {
-            background-color: #2980b9;
+        
+        .github-btn {
+            background-color: rgba(36, 41, 46, 0.9);
+            color: white;
+        }
+        
+        .github-btn:hover {
+            background-color: rgba(36, 41, 46, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .panbaidu-btn {
+            background-color: rgba(45, 140, 240, 0.9);
+            color: white;
+        }
+        
+        .panbaidu-btn:hover {
+            background-color: rgba(45, 140, 240, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .extract-code {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: rgba(232, 244, 253, 0.8);
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .version-info {
+            color: #555;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+        
+        .music-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin: 0 5px;
+            transition: transform 0.2s;
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+        }
+        
+        .disclaimer {
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <h1>我的软件下载平台</h1>
-    <div class="software-list">
-        <!-- 软件1 -->
-        <div class="software-item">
-            <div class="software-name">youmu.exe</div>
-            <div class="software-desc">youmu==kawaii</div>
-            <a href="youmu.exe" class="download-btn">点击下载</a>
+    <h1>molunkerの软件下载</h1>
+    
+    <div class="download-container">
+        <h2 class="download-title">程序下载</h2>
+        
+        <div class="download-item">
+            <h3>youmu加密</h3>
+            <div class="version-info">版本：正式版</div>
+            <div class="btn-group">
+                <a href="youmu.py" download="youmu.py" class="download-btn github-btn">
+                    Python源码 (GitHub)
+                </a>
+                <a href="https://pan.baidu.com/s/19aLVzEJcuzs8LBUCDmJqoA" target="_blank" class="download-btn panbaidu-btn">
+                    百度网盘 (exe程序)
+                </a>
+            </div>
+            <div class="extract-code">
+                百度网盘提取码: bugs
+            </div>
         </div>
-        <!-- 软件2 -->
-        <div class="software-item">
-            <div class="software-name">hachimi</div>
-            <div class="software-desc">WCSNDM</div>
-            <a href="note_v2.exe" class="download-btn">点击下载</a>
+        
+        <div class="download-item">
+            <h3>Rin_note_v2</h3>
+            <div class="version-info">版本：v2.0</div>
+            <div class="btn-group">
+                <a href="note_v2.py" download="note_v2.py" class="download-btn github-btn">
+                    Python源码 (GitHub)
+                </a>
+                <a href="https://pan.baidu.com/s/1b8ZH3X62fy3J4ZCVZ-uxEQ" target="_blank" class="download-btn panbaidu-btn">
+                    百度网盘 (exe程序)
+                </a>
+            </div>
+            <div class="extract-code">
+                百度网盘提取码: bugs
+            </div>
         </div>
-        <!-- 可根据需要添加更多软件条目 -->
     </div>
+    
+    <div class="disclaimer">
+        <p>说明：Python源码可直接运行（需Python环境），exe程序为打包好的可执行文件。</p>
+    </div>
+    
+    <!-- 音频元素 - 不显示控件但保持功能 -->
+    <audio id="bgMusic1" preload="auto">
+        <source src="split.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusic2" preload="auto">
+        <source src="split_2.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-control">
+        <button class="music-btn" id="playBtn">⏸️</button>
+    </div>
+
+    <script>
+        // 获取音频元素和控制按钮
+        const audio1 = document.getElementById('bgMusic1');
+        const audio2 = document.getElementById('bgMusic2');
+        const playBtn = document.getElementById('playBtn');
+        let isPlaying = false;
+        let currentAudio = audio1;
+        
+        // 尝试自动播放的函数
+        function tryAutoPlay() {
+            // 创建用户交互触发点 - 解决浏览器自动播放限制
+            document.body.addEventListener('click', initAudio, { once: true });
+            document.body.addEventListener('touchstart', initAudio, { once: true });
+        }
+        
+        // 初始化音频播放
+        function initAudio() {
+            if (!isPlaying) {
+                playAudio(audio1);
+            }
+        }
+        
+        // 播放指定音频
+        function playAudio(audio) {
+            currentAudio = audio;
+            audio.play().then(() => {
+                isPlaying = true;
+                playBtn.textContent = '⏸️';
+            }).catch(e => {
+                console.log('音频播放失败:', e);
+                playBtn.textContent = '▶️';
+            });
+        }
+        
+        // 音频切换逻辑
+        audio1.addEventListener('ended', () => {
+            playAudio(audio2);
+        });
+        
+        audio2.addEventListener('ended', () => {
+            playAudio(audio1);
+        });
+        
+        // 播放/暂停按钮控制
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                currentAudio.pause();
+                playBtn.textContent = '▶️';
+            } else {
+                currentAudio.play();
+                playBtn.textContent = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        });
+        
+        // 页面加载时尝试设置自动播放
+        window.addEventListener('load', tryAutoPlay);
+    </script>
 </body>
 </html>
+    
