@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>molunkerの软件下载</title>
-    <link rel="stylesheet" href="static/css/main.css">
-    <script src="static/js/scripts.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
+        /* 全局居中设置 */
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
             line-height: 1.6;
             color: #222;
             background-image: url('background.jpg');
@@ -20,6 +18,12 @@
             background-attachment: fixed;
             background-repeat: no-repeat;
             position: relative;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 水平居中所有子元素 */
+            min-height: 100vh;
         }
         
         body::before {
@@ -29,8 +33,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.8); /* 提高透明度 */
+            background-color: rgba(255, 255, 255, 0.8);
             z-index: -1;
+        }
+        
+        /* 容器居中设置 */
+        .container-wrapper {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .download-container {
@@ -38,9 +51,11 @@
             padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.8); /* 提高透明度 */
+            background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(5px);
+            width: 100%;
+            max-width: 600px;
         }
         
         .download-title {
@@ -48,12 +63,17 @@
             border-bottom: 2px solid rgba(76, 175, 80, 0.9);
             padding-bottom: 10px;
             margin-bottom: 20px;
+            text-align: center; /* 文本居中 */
         }
         
         .download-item {
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 1px dashed rgba(221, 221, 221, 0.8);
+            text-align: center; /* 文本居中 */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 子元素水平居中 */
         }
         
         .download-item:last-child {
@@ -64,12 +84,17 @@
             color: #2c3e50;
             margin-bottom: 10px;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+            width: 100%;
+            text-align: center;
         }
         
         .btn-group {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            justify-content: center; /* 按钮组居中 */
+            width: 100%;
+            margin-bottom: 10px;
         }
         
         .download-btn {
@@ -83,6 +108,12 @@
             min-width: 150px;
             border: none;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        
+        .download-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .github-btn {
@@ -106,21 +137,185 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        
-        .extract-code {
-            margin-top: 8px;
-            padding: 8px;
-            background-color: rgba(232, 244, 253, 0.8);
-            border-radius: 4px;
-            font-family: monospace;
+
+        /* 游戏按钮样式 */
+        .game-button {
+            margin: 15px 0;
+            padding: 10px 20px;
+            background-color: #8B5CF6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .version-info {
-            color: #555;
-            font-size: 0.9em;
-            margin-top: 5px;
+        .game-button:hover {
+            background-color: #7C3AED;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
         }
         
+        .game-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(139, 92, 246, 0.4);
+        }
+
+        /* 游戏弹窗样式 */
+        .game-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .game-container {
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            background-color: #1A1A2E;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .game-header {
+            padding: 15px;
+            background-color: #2D2B55;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #474580;
+        }
+        
+        .game-title {
+            color: white;
+            margin: 0;
+            font-size: 18px;
+        }
+        
+        .close-game {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .close-game:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .game-content {
+            width: 100%;
+            height: calc(100% - 60px);
+            overflow-y: auto;
+        }
+
+        /* 抽卡结果弹窗 */
+        .result-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            z-index: 1100;
+            padding: 20px;
+        }
+        
+        .result-container {
+            width: 100%;
+            max-width: 800px;
+            max-height: 80vh;
+            background-color: #1A1A2E;
+            border-radius: 12px;
+            overflow-y: auto;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+            position: relative;
+            padding: 20px;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .result-title {
+            color: white;
+            font-size: 24px;
+            margin: 0;
+        }
+        
+        .close-result {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .close-result:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 抽卡模拟器内部样式 */
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .card-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .scrollbar-thin {
+                scrollbar-width: thin;
+            }
+            .scrollbar-thin::-webkit-scrollbar {
+                width: 6px;
+            }
+            .scrollbar-thin::-webkit-scrollbar-thumb {
+                background-color: rgba(156, 163, 175, 0.5);
+                border-radius: 3px;
+            }
+        }
+
         .music-control {
             position: fixed;
             bottom: 20px;
@@ -150,62 +345,120 @@
         
         h1 {
             color: #2c3e50;
-            text-align: center;
+            text-align: center; /* 标题文本居中 */
             text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+            margin-top: 20px;
+            width: 100%;
         }
         
         .disclaimer {
             font-size: 0.9em;
             color: #666;
-            text-align: center;
+            text-align: center; /* 文本居中 */
             margin-top: 30px;
             padding: 10px;
             background-color: rgba(255, 255, 255, 0.6);
             border-radius: 4px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .version-info {
+            color: #555;
+            font-size: 0.9em;
+            margin-top: 5px;
+            text-align: center; /* 文本居中 */
+            width: 100%;
+        }
+
+        .extract-code {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: rgba(232, 244, 253, 0.8);
+            border-radius: 4px;
+            font-family: monospace;
+            display: inline-block;
+        }
+
+        /* 状态信息样式 - 确保可见 */
+        .status-text {
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 抽卡模拟器内部元素居中设置 */
+        #gameContent .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #gameContent header,
+        #gameContent main,
+        #gameContent footer {
+            width: 100%;
+            text-align: center;
+        }
+        
+        #gameContent .flex {
+            justify-content: center;
+        }
+        
+        #gameContent .flex-wrap {
+            justify-content: center;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>molunkerの软件下载</h1>
-    
-    <div class="download-container">
-        <h2 class="download-title">程序下载</h2>
+    <div class="container-wrapper">
+        <h1>molunkerの软件下载</h1>
         
-        <div class="download-item">
-            <h3>youmu加密</h3>
-            <div class="version-info">版本：正式版</div>
-            <div class="btn-group">
-                <a href="youmu.py" download="youmu.py" class="download-btn github-btn">
-                    Python源码 (GitHub)
-                </a>
-                <a href="https://pan.baidu.com/s/19aLVzEJcuzs8LBUCDmJqoA" target="_blank" class="download-btn panbaidu-btn">
-                    百度网盘 (exe程序)
-                </a>
+        <!-- 添加"玩玩小游戏"按钮 -->
+        <button id="openGameBtn" class="game-button">
+            <i class="fa fa-gamepad"></i> 玩玩小游戏
+        </button>
+        
+        <div class="download-container">
+            <h2 class="download-title">程序下载</h2>
+            
+            <div class="download-item">
+                <h3>youmu加密</h3>
+                <div class="version-info">版本：正式版</div>
+                <div class="btn-group">
+                    <a href="youmu.py" download="youmu.py" class="download-btn github-btn">
+                        Python源码 (GitHub)
+                    </a>
+                    <a href="https://pan.baidu.com/s/19aLVzEJcuzs8LBUCDmJqoA" target="_blank" class="download-btn panbaidu-btn">
+                        百度网盘 (exe程序)
+                    </a>
+                </div>
+                <div class="extract-code">
+                    百度网盘提取码: bugs
+                </div>
             </div>
-            <div class="extract-code">
-                百度网盘提取码: bugs
+            
+            <div class="download-item">
+                <h3>Rin_note_v2</h3>
+                <div class="version-info">版本：v2.0</div>
+                <div class="btn-group">
+                    <a href="note_v2.py" download="note_v2.py" class="download-btn github-btn">
+                        Python源码 (GitHub)
+                    </a>
+                    <a href="https://pan.baidu.com/s/1b8ZH3X62fy3J4ZCVZ-uxEQ" target="_blank" class="download-btn panbaidu-btn">
+                        百度网盘 (exe程序)
+                    </a>
+                </div>
+                <div class="extract-code">
+                    百度网盘提取码: bugs
+                </div>
             </div>
         </div>
         
-        <div class="download-item">
-            <h3>Rin_note_v2</h3>
-            <div class="version-info">版本：v2.0</div>
-            <div class="btn-group">
-                <a href="note_v2.py" download="note_v2.py" class="download-btn github-btn">
-                    Python源码 (GitHub)
-                </a>
-                <a href="https://pan.baidu.com/s/1b8ZH3X62fy3J4ZCVZ-uxEQ" target="_blank" class="download-btn panbaidu-btn">
-                    百度网盘 (exe程序)
-                </a>
-            </div>
-            <div class="extract-code">
-                百度网盘提取码: bugs
-            </div>
+        <div class="disclaimer">
+            <p>作者:molunker           作者邮箱:jxwsyydd@163.com            </p>
         </div>
-    </div>
-    
-    <div class="disclaimer">
-        <p>作者:molunker           作者邮箱:jxwsyydd@163.com            </p>
     </div>
     
     <!-- 音频元素 - 不显示控件但保持功能 -->
@@ -220,6 +473,156 @@
         <button class="music-btn" id="playBtn">⏸️</button>
     </div>
 
+    <!-- 游戏弹窗 -->
+    <div id="gameModal" class="game-modal">
+        <div class="game-container">
+            <div class="game-header">
+                <h2 class="game-title">东方Project抽卡模拟器</h2>
+                <button id="closeGameBtn" class="close-game">&times;</button>
+            </div>
+            <div class="game-content" id="gameContent">
+                <!-- 抽卡模拟器内容 -->
+                <div class="container mx-auto px-4 py-8 relative z-10">
+                    <!-- 头部标题 -->
+                    <header class="text-center mb-8">
+                        <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-touhou text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-yellow-400 mb-2 text-shadow">东方Project抽卡模拟器</h1>
+                        <p class="text-gray-300">收集幻想乡的角色卡牌，体验抽卡的乐趣</p>
+                    </header>
+
+                    <!-- 主游戏区域 -->
+                    <main class="max-w-4xl mx-auto">
+                        <!-- 状态信息栏 - 修复文字可见性 -->
+                        <div class="flex flex-wrap justify-between items-center mb-8 p-4 bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-700">
+                            <div class="flex items-center gap-4 mb-4 sm:mb-0">
+                                <button id="commandBtn" class="bg-primary hover:bg-primary/80 active:bg-primary/60 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                                    <i class="fa fa-key"></i> 密令
+                                </button>
+                                <button id="albumBtn" class="bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                                    <i class="fa fa-book"></i> 卡牌图鉴
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa fa-diamond text-yellow-400 text-xl"></i>
+                                    <span id="spiritCount" class="text-lg font-bold status-text">100</span>
+                                    <span class="text-gray-300 status-text">灵</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa fa-history text-purple-400"></i>
+                                    <span id="drawCount" class="text-lg font-bold status-text">0</span>
+                                    <span class="text-gray-300 status-text">抽卡次数</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 抽卡按钮区域 -->
+                        <div class="flex flex-col sm:flex-row justify-center gap-8 mb-10">
+                            <div class="flex flex-col items-center">
+                                <button id="singleDrawBtn" class="w-40 h-20 bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-blue-500/30 active:opacity-80 transition-all flex items-center justify-center card-hover">
+                                    单抽
+                                </button>
+                                <p class="mt-3 text-gray-400">消耗: 2灵</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <button id="tenDrawBtn" class="w-40 h-20 bg-gradient-to-br from-purple-600 to-purple-400 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-purple-500/30 active:opacity-80 transition-all flex items-center justify-center card-hover">
+                                    十连抽
+                                </button>
+                                <p class="mt-3 text-gray-400">消耗: 20灵</p>
+                            </div>
+                        </div>
+
+                        <!-- 概率说明 -->
+                        <div class="text-center mb-10">
+                            <button id="probBtn" class="text-blue-400 hover:text-blue-300 active:text-blue-500 transition-colors underline flex items-center gap-1 mx-auto">
+                                <i class="fa fa-info-circle"></i> 查看抽卡概率
+                            </button>
+                        </div>
+
+                        <!-- 抽卡结果区域 -->
+                        <div id="resultArea" class="hidden mb-10">
+                            <h2 class="text-2xl font-bold mb-4 text-center">抽卡结果</h2>
+                            <div id="refundInfo" class="text-green-400 text-center mb-4 hidden"></div>
+                            <div id="newCardsInfo" class="text-yellow-400 text-center mb-4 hidden"></div>
+                            <div id="cardGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4"></div>
+                        </div>
+                    </main>
+
+                    <!-- 页脚 -->
+                    <footer class="mt-16 text-center text-gray-500 text-sm">
+                        <p>东方Project抽卡模拟器 &copy; 2023 - 非官方同人作品</p>
+                    </footer>
+                </div>
+
+                <!-- 密令输入模态框 -->
+                <div id="commandModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+                    <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md">
+                        <h3 class="text-xl font-bold mb-4 text-center">输入密令</h3>
+                        <div class="mb-4">
+                            <input type="text" id="commandInput" placeholder="输入东方角色名或别名" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white">
+                        </div>
+                        <div class="flex gap-3">
+                            <button id="confirmCommand" class="flex-1 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white py-2 rounded-lg transition-all">确认</button>
+                            <button id="cancelCommand" class="flex-1 bg-gray-600 hover:bg-gray-500 active:bg-gray-700 text-white py-2 rounded-lg transition-all">取消</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡牌图鉴模态框 -->
+                <div id="albumModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+                    <div class="bg-gray-800 rounded-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+                        <h3 class="text-xl font-bold mb-4">卡牌图鉴</h3>
+                        <div class="overflow-y-auto scrollbar-thin flex-1">
+                            <div id="albumContent" class="space-y-6">
+                                <!-- 图鉴内容将通过JS动态生成 -->
+                            </div>
+                        </div>
+                        <button id="closeAlbum" class="mt-6 bg-gray-600 hover:bg-gray-500 active:bg-gray-700 text-white py-2 rounded-lg transition-all">关闭</button>
+                    </div>
+                </div>
+
+                <!-- 概率说明模态框 -->
+                <div id="probModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+                    <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto scrollbar-thin">
+                        <h3 class="text-xl font-bold mb-4">抽卡概率</h3>
+                        <div class="space-y-4 text-gray-300">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-white">基础卡牌概率分布</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li><span class="text-blue-400 font-bold">R卡：</span>90.0%（共67张卡）</li>
+                                    <li><span class="text-purple-400 font-bold">SR卡：</span>9.0%（共30张卡）</li>
+                                    <li><span class="text-yellow-400 font-bold">SSR卡：</span>1.0%（共14张卡）</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-white">灵返还规则（抽到已有卡时）</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li><span class="text-blue-400">R卡：</span>1灵</li>
+                                    <li><span class="text-purple-400">SR卡：</span>2灵</li>
+                                    <li><span class="text-yellow-400">SSR卡：</span>10灵</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button id="closeProb" class="mt-6 bg-gray-600 hover:bg-gray-500 active:bg-gray-700 text-white py-2 rounded-lg transition-all">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 抽卡结果弹窗 -->
+    <div id="drawResultModal" class="result-modal">
+        <div class="result-container">
+            <div class="result-header">
+                <h2 class="result-title">抽卡结果</h2>
+            </div>
+            <button id="closeResultBtn" class="close-result">&times;</button>
+            <div id="resultRefundInfo" class="text-green-400 text-center mb-4 hidden"></div>
+            <div id="resultNewCardsInfo" class="text-yellow-400 text-center mb-4 hidden"></div>
+            <div id="resultCardGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4"></div>
+        </div>
+    </div>
+
     <script>
         // 获取音频元素和控制按钮
         const audio1 = document.getElementById('bgMusic1');
@@ -232,38 +635,20 @@
         function tryAutoPlay() {
             // 创建用户交互触发点 - 解决浏览器自动播放限制
             document.body.addEventListener('click', initAudio, { once: true });
-            document.body.addEventListener('touchstart', initAudio, { once: true });
         }
-        
-        // 初始化音频播放
+
         function initAudio() {
             if (!isPlaying) {
-                playAudio(audio1);
+                currentAudio.play().then(() => {
+                    isPlaying = true;
+                    playBtn.textContent = '⏸️';
+                }).catch(err => {
+                    console.log('自动播放失败:', err);
+                });
             }
         }
-        
-        // 播放指定音频
-        function playAudio(audio) {
-            currentAudio = audio;
-            audio.play().then(() => {
-                isPlaying = true;
-                playBtn.textContent = '⏸️';
-            }).catch(e => {
-                console.log('音频播放失败:', e);
-                playBtn.textContent = '▶️';
-            });
-        }
-        
-        // 音频切换逻辑
-        audio1.addEventListener('ended', () => {
-            playAudio(audio2);
-        });
-        
-        audio2.addEventListener('ended', () => {
-            playAudio(audio1);
-        });
-        
-        // 播放/暂停按钮控制
+
+        // 切换播放/暂停
         playBtn.addEventListener('click', () => {
             if (isPlaying) {
                 currentAudio.pause();
@@ -274,10 +659,693 @@
             }
             isPlaying = !isPlaying;
         });
-        
-        // 页面加载时尝试设置自动播放
+
+        // 音频结束时切换到下一首
+        audio1.addEventListener('ended', () => {
+            currentAudio = audio2;
+            currentAudio.play();
+            isPlaying = true;
+        });
+
+        audio2.addEventListener('ended', () => {
+            currentAudio = audio1;
+            currentAudio.play();
+            isPlaying = true;
+        });
+
+        // 页面加载时尝试自动播放
         window.addEventListener('load', tryAutoPlay);
+
+        // 游戏相关逻辑
+        const openGameBtn = document.getElementById('openGameBtn');
+        const gameModal = document.getElementById('gameModal');
+        const closeGameBtn = document.getElementById('closeGameBtn');
+        const drawResultModal = document.getElementById('drawResultModal');
+        const closeResultBtn = document.getElementById('closeResultBtn');
+        
+        openGameBtn.addEventListener('click', () => {
+            gameModal.style.display = 'flex';
+        });
+        
+        closeGameBtn.addEventListener('click', () => {
+            gameModal.style.display = 'none';
+        });
+        
+        // 关闭抽卡结果弹窗
+        closeResultBtn.addEventListener('click', () => {
+            drawResultModal.style.display = 'none';
+        });
+        
+        // 点击弹窗外部关闭
+        gameModal.addEventListener('click', (e) => {
+            if (e.target === gameModal) {
+                gameModal.style.display = 'none';
+            }
+        });
+        
+        drawResultModal.addEventListener('click', (e) => {
+            if (e.target === drawResultModal) {
+                drawResultModal.style.display = 'none';
+            }
+        });
+
+        // 东方抽卡模拟器游戏逻辑
+        const gameData = {
+            spirit: 100,
+            drawCount: 0,
+            goldenTime: 0, // SSR保底计数
+            specialCardProb: 0.0001, // ???卡概率
+            lastWordProbSingle: 0.001, // 单抽LAST WORD概率
+            lastWordProbTen: 0.01, // 十连LAST WORD概率
+            collectedCards: {}, // 已收集卡牌 {cardName: count}
+            
+            // 卡牌数据
+            cards: {},
+            normalCardList: [],
+            normalProbabilities: [],
+            lastWordCards: [],
+            ssrCards: [],
+            srCards: [],
+            specialCard: "「胎児の夢」",
+            
+            // 灵返还规则
+            spiritRefund: {
+                "R": 1,
+                "SR": 2,
+                "SSR": 10,
+                "LAST WORD": 20,
+                "???": 50
+            },
+            
+            // 角色密令数据
+            characters: {
+                "博丽灵梦": 100, "灵梦": 100, "红白": 100, "博丽": 100,
+                "雾雨魔理沙": 100, "魔理沙": 100, "黑白": 100,
+                "东风谷早苗": 100, "早苗": 100,
+                "蕾米莉亚·斯卡雷特": 100, "蕾米莉亚": 100, "红魔馆": 100,
+                "芙兰朵露·斯卡雷特": 100, "芙兰朵露": 100, "二小姐": 100,
+                "帕秋莉·诺蕾姬": 100, "帕秋莉": 100, "大图书馆": 100,
+                "十六夜咲夜": 100, "咲夜": 100, "女仆": 100,
+                "魂魄妖梦": 100, "妖梦": 100, "半人半灵": 100,
+                "西行寺幽幽子": 100, "幽幽子": 100, "亡灵": 100,
+                "八云紫": 100, "紫": 100, "间隙": 100,
+                "八云蓝": 100, "蓝": 100, "式神": 100,
+                "铃奈庵": 100, "本居小铃": 100, "小铃": 100,
+                "伊吹萃香": 100, "萃香": 100, "鬼": 100,
+                "射命丸文": 100, "文": 100, "天狗": 100,
+                "河城荷取": 100, "荷取": 100, "河童": 100,
+                "风见幽香": 100, "幽香": 100, "花妈": 100,
+                "铃仙·优昙华院·因幡": 100, "铃仙": 100, "兔子": 100,
+                "蓬莱山辉夜": 100, "辉夜": 100, "公主": 100,
+                "藤原妹红": 100, "妹红": 100, "不死鸟": 100,
+                "上白泽慧音": 100, "慧音": 100, "白泽": 100,
+                "泄矢诹访子": 100, "诹访子": 100, "青蛙子": 100,
+                "神奈子": 100, "八坂神奈子": 100, "御柱": 100,
+                "比那名居天子": 100, "天子": 100, "天人": 100,
+                "永江衣玖": 100, "衣玖": 100, "龙": 100,
+                "琪露诺": 100, "⑨": 100, "笨蛋": 100,
+                "蕾蒂·霍瓦特洛克": 100, "蕾蒂": 100, "雪女": 100,
+                "莉格露·奈特巴格": 100, "莉格露": 100, "虫子": 100,
+                "米斯蒂娅·萝蕾拉": 100, "米斯蒂娅": 100, "夜雀": 100,
+                "上弦": 100, "露娜萨·普莉兹姆利巴": 100,
+                "中弦": 100, "梅露兰·普莉兹姆利巴": 100,
+                "下弦": 100, "莉莉卡·普莉兹姆利巴": 100,
+                "斯塔·萨菲雅": 100, "斯塔": 100, "魔法使": 100,
+                "桑尼·米尔克": 100, "桑尼": 100,
+                "琪丝美": 100, "妖怪之湖": 100,
+                "黑谷山女": 100, "山女": 100, "天狗": 100,
+                "村纱水蜜": 100, "村纱": 100, "幽灵船": 100,
+                "云居一轮": 100, "一轮": 100, "付丧神": 100,
+                "云山": 100, "大太郎法师": 100,
+                "宫古芳香": 100, "芳香": 100, "僵尸": 100,
+                "小野冢小町": 100, "小町": 100, "死神": 100,
+                "四季映姬·亚玛萨那度": 100, "映姬": 100, "阎魔": 100,
+                "秋静叶": 100, "静叶": 100, "红叶": 100,
+                "秋穣子": 100, "穣子": 100, "丰收": 100,
+                "键山雏": 100, "雏": 100, "厄运": 100,
+                "河童": 100, "犬走椛": 100, "椛": 100,
+                "东方": 200, "幻想乡": 200, "上海": 200, "蓬莱": 200
+            }
+        };
+
+        // 卡牌数据初始化
+        function initCardPool() {
+            // R卡
+            const rCards = [
+                "式輝「四面楚歌チャーミング」", "罔両「八雲紫の神隠し」", "隠蟲「永夜蟄居」",
+                "夜雀「真夜中のコーラスマスター」", "終符「幻想天皇」", "魔砲「ファイナルマスタースパーク」",
+                "神霊「夢想封印　瞬」", "散符「真実の月（インビジブルフルムーン）」", "蘇活「生命遊戯　-ライフゲーム-」",
+                "秘術「天文密葬法」", "難題「龍の頸の玉　-五色の弾丸-」", "難題「火鼠の皮衣　-焦れぬ心-」",
+                "難題「仏の御石の鉢　-砕けぬ意思-」", "難題「蓬莱の弾の枝　-虹色の弾幕-」", "不死「火の鳥　-鳳翼天翔-」",
+                "大奇跡「八坂の神風」", "「風神様の神徳」", "協力技「フェアリーオーバードライブ」",
+                "月符「紺色の狂夢」", "「震え凍える星」", "「人を殺める為の純粋な弾幕」","「片翼の白鷺」",
+                "滅罪「正直者の死」","後符「絶対秘神の後光」","六道剣「一念無量劫」"
+            ];
+            
+            // SSR卡
+            const ssrCards = [
+                "霊符「夢想封印」", "恋符「マスタースパーク」", "幻世「ザ・ワールド」",
+                "「紅色の幻想郷」", "QED「４９５年の波紋」", "「反魂蝶 -八分咲-」",
+                "結界「生と死の境界」", "禁薬「蓬莱の薬」", "「永夜返し　-世明け-」",
+                "「永夜返し　-明けの明星-」", "「インペリシャブルシューティング」", 
+                "「人を殺める為の純粋な弾幕」","秘儀「七星の剣」","「サブタレイニアンローズ」"
+            ];
+            
+            // LAST WORD卡
+            const lastWordCards = [
+                "「季節外れのバタフライストーム」", "「ブラインドナイトバード」", 
+                "「日出づる国の天子」", "「幻朧月睨（ルナティックレッドアイズ）」",
+                "「天網蜘網捕蝶の法」", "「蓬莱の樹海」", "「フェニックス再誕」",
+                "「エンシェントデューパー」", "「無何有浄化」", "「夢想天生」",
+                "「ブレイジングスター」", "「デフレーションワールド」", "「待宵反射衛星斬」",
+                "「グランギニョル座の怪人」", "「スカーレットディスティニー」", 
+                "「西行寺無余涅槃」", "「深弾幕結界　-夢幻泡影-」",
+                "土着神「ケロちゃん風雨に負けず」", "「地獄の人工太陽」", 
+                "純符「純粋な弾幕地獄」"
+            ];
+            
+            // 添加卡牌到数据结构
+            rCards.forEach(card => {
+                gameData.cards[card] = {
+                    rarity: "R",
+                    probability: 0.9 / rCards.length,
+                    color: "text-blue-400"  // R卡蓝色
+                };
+            });
+            
+            // SR卡
+            const srCards = [
+                "魔符「スターダストレボリューション」", "神霊「夢想封印　覚」", 
+                "星符「メテオストライク」", "魔符「デビルズレーザー」", 
+                "光符「フォトンストーム」", "幻術「メイジズバレット」", 
+                "魔符「レッドミスト」", "幻符「ミラーリング」", 
+                "不思議「ミステリアスフライディッシュ」", "剣符「桜花剣舞」", 
+                "幽符「幽夢迷宮」", "死符「魂の葬送」", 
+                "幽曲「幽玄の輪舞」", "神風「八坂の風祝」", 
+                "神技「神風の祝福」", "天気「風神の嵐」", 
+                "神宝「八咫鏡の神威」", "天符「天空の怒り」", 
+                "天変「神隠しの嵐」", "星符「メテオスウォーム」", 
+                "恋符「ハートブレイク」", "恋符「ハートエイク」", 
+                "恋符「ハートスキップ」", "恋符「ハートアタック」", 
+                "魔眼「レッドアイズ」", "呪符「ルビーダスト」", 
+                "幻術「カオスマジック」", "魔術「ダークマター」", 
+                "魔術「ブラックホール」", "魔術「アザーワールド」"
+            ];
+            
+            srCards.forEach(card => {
+                gameData.cards[card] = {
+                    rarity: "SR",
+                    probability: 0.09 / srCards.length,
+                    color: "text-purple-400"  // SR卡紫色
+                };
+            });
+            
+            ssrCards.forEach(card => {
+                gameData.cards[card] = {
+                    rarity: "SSR",
+                    probability: 0.01 / ssrCards.length,
+                    color: "text-yellow-400"  // SSR卡金色/黄色
+                };
+            });
+            
+            lastWordCards.forEach(card => {
+                gameData.cards[card] = {
+                    rarity: "LAST WORD",
+                    color: "text-white",  // LAST WORD卡白色
+                    bgColor: "bg-black border-black"
+                };
+            });
+            
+            // 特殊卡牌
+            gameData.cards[gameData.specialCard] = {
+                rarity: "???",
+                color: "text-black",  // ???卡黑色
+                bgColor: "bg-white border-white"
+            };
+            
+            // 构建普通卡池和概率
+            gameData.normalCardList = rCards.concat(srCards, ssrCards);
+            gameData.normalProbabilities = gameData.normalCardList.map(card => gameData.cards[card].probability);
+            gameData.lastWordCards = lastWordCards;
+            gameData.ssrCards = ssrCards;
+            gameData.srCards = srCards;
+        }
+
+        // DOM元素
+        const elements = {
+            spiritCount: document.getElementById('spiritCount'),
+            drawCount: document.getElementById('drawCount'),
+            singleDrawBtn: document.getElementById('singleDrawBtn'),
+            tenDrawBtn: document.getElementById('tenDrawBtn'),
+            commandBtn: document.getElementById('commandBtn'),
+            commandModal: document.getElementById('commandModal'),
+            commandInput: document.getElementById('commandInput'),
+            confirmCommand: document.getElementById('confirmCommand'),
+            cancelCommand: document.getElementById('cancelCommand'),
+            albumBtn: document.getElementById('albumBtn'),
+            albumModal: document.getElementById('albumModal'),
+            albumContent: document.getElementById('albumContent'),
+            closeAlbum: document.getElementById('closeAlbum'),
+            probBtn: document.getElementById('probBtn'),
+            probModal: document.getElementById('probModal'),
+            closeProb: document.getElementById('closeProb'),
+            resultArea: document.getElementById('resultArea'),
+            cardGrid: document.getElementById('cardGrid'),
+            refundInfo: document.getElementById('refundInfo'),
+            newCardsInfo: document.getElementById('newCardsInfo'),
+            // 抽卡结果弹窗元素
+            resultModal: document.getElementById('drawResultModal'),
+            resultCardGrid: document.getElementById('resultCardGrid'),
+            resultRefundInfo: document.getElementById('resultRefundInfo'),
+            resultNewCardsInfo: document.getElementById('resultNewCardsInfo')
+        };
+
+        // 更新UI显示
+        function updateUI() {
+            elements.spiritCount.textContent = gameData.spirit;
+            elements.drawCount.textContent = gameData.drawCount;
+        }
+
+        // 抽取常规卡牌
+        function drawNormalCard() {
+            // 使用加权随机选择卡牌
+            let totalProb = 0;
+            const random = Math.random();
+            
+            for (let i = 0; i < gameData.normalCardList.length; i++) {
+                totalProb += gameData.normalProbabilities[i];
+                if (random <= totalProb) {
+                    return gameData.normalCardList[i];
+                }
+            }
+            
+            // 保底返回第一张卡
+            return gameData.normalCardList[0];
+        }
+
+        // 检查是否触发???卡
+        function checkSpecialCard(cards) {
+            if (Math.random() <= gameData.specialCardProb) {
+                if (cards.length === 1) {
+                    return [gameData.specialCard];
+                } else {
+                    const replaceIdx = Math.floor(Math.random() * cards.length);
+                    cards[replaceIdx] = gameData.specialCard;
+                    return cards;
+                }
+            }
+            return cards;
+        }
+
+        // 检查十连保底SR
+        function checkTenDrawGuarantee(cards) {
+            // 检查是否已有SR或更高稀有度的卡牌
+            const hasHighRarity = cards.some(card => {
+                const rarity = gameData.cards[card].rarity;
+                return rarity === "SR" || rarity === "SSR" || 
+                       rarity === "LAST WORD" || rarity === "???";
+            });
+            
+            if (!hasHighRarity) {
+                // 替换一张卡为SR
+                const replaceIdx = Math.floor(Math.random() * cards.length);
+                const srCard = gameData.srCards[Math.floor(Math.random() * gameData.srCards.length)];
+                cards[replaceIdx] = srCard;
+            }
+            
+            return cards;
+        }
+
+        // 检查是否触发LAST WORD卡
+        function checkLastWordCard(cards, isSingleDraw) {
+            const prob = isSingleDraw ? gameData.lastWordProbSingle : gameData.lastWordProbTen;
+            
+            if (Math.random() <= prob) {
+                // 寻找可替换的卡牌（不是???卡）
+                const replaceableIndices = [];
+                cards.forEach((card, idx) => {
+                    if (gameData.cards[card].rarity !== "???") {
+                        replaceableIndices.push(idx);
+                    }
+                });
+                
+                if (replaceableIndices.length > 0) {
+                    const replaceIdx = replaceableIndices[Math.floor(Math.random() * replaceableIndices.length)];
+                    const randomLWCard = gameData.lastWordCards[Math.floor(Math.random() * gameData.lastWordCards.length)];
+                    cards[replaceIdx] = randomLWCard;
+                }
+            }
+            
+            return cards;
+        }
+
+        // 检查SSR保底
+        function checkSSRGuarantee(cards) {
+            const hasSSR = cards.some(card => gameData.cards[card].rarity === "SSR");
+            const hasLastWord = cards.some(card => gameData.cards[card].rarity === "LAST WORD");
+            const hasSpecial = cards.some(card => gameData.cards[card].rarity === "???");
+            
+            if (!hasSSR && !hasLastWord && !hasSpecial && gameData.goldenTime >= 70) {
+                // 保底SSR，替换一张卡
+                const replaceableIndices = [];
+                cards.forEach((card, idx) => {
+                    if (gameData.cards[card].rarity !== "LAST WORD" && gameData.cards[card].rarity !== "???") {
+                        replaceableIndices.push(idx);
+                    }
+                });
+                
+                if (replaceableIndices.length > 0) {
+                    const replaceIdx = replaceableIndices[Math.floor(Math.random() * replaceableIndices.length)];
+                    const ssrCard = gameData.ssrCards[Math.floor(Math.random() * gameData.ssrCards.length)];
+                    cards[replaceIdx] = ssrCard;
+                    
+                    // 重置保底计数
+                    gameData.goldenTime = 0;
+                }
+            } else if (!hasSSR && !hasLastWord && !hasSpecial) {
+                // 没有高稀有度卡牌，增加保底计数
+                gameData.goldenTime++;
+            } else {
+                // 抽到高稀有度卡牌，重置保底计数
+                gameData.goldenTime = 0;
+            }
+            
+            return cards;
+        }
+
+        // 更新收集的卡牌并计算灵返还
+        function updateCollectedCards(cards) {
+            let refund = 0;
+            const newCards = [];
+            
+            cards.forEach(card => {
+                if (gameData.collectedCards[card]) {
+                    gameData.collectedCards[card]++;
+                    // 计算返还
+                    const rarity = gameData.cards[card].rarity;
+                    refund += gameData.spiritRefund[rarity] || 0;
+                } else {
+                    gameData.collectedCards[card] = 1;
+                    newCards.push(card);
+                }
+            });
+            
+            // 返还灵
+            if (refund > 0) {
+                gameData.spirit += refund;
+                updateUI();
+            }
+            
+            return { refund, newCards };
+        }
+
+        // 显示抽卡结果 - 在新弹窗中显示
+        function showDrawResult(cards, refund, newCards) {
+            // 清空结果网格
+            elements.resultCardGrid.innerHTML = '';
+            
+            // 显示灵返还信息
+            if (refund > 0) {
+                elements.resultRefundInfo.textContent = `获得灵返还: ${refund}灵`;
+                elements.resultRefundInfo.classList.remove('hidden');
+            } else {
+                elements.resultRefundInfo.classList.add('hidden');
+            }
+            
+            // 显示新获得的卡牌
+            if (newCards.length > 0) {
+                elements.resultNewCardsInfo.textContent = `新获得${newCards.length}张卡牌！`;
+                elements.resultNewCardsInfo.classList.remove('hidden');
+            } else {
+                elements.resultNewCardsInfo.classList.add('hidden');
+            }
+            
+            // 创建卡牌元素 - 不同稀有度使用不同颜色
+            cards.forEach(card => {
+                const cardInfo = gameData.cards[card];
+                const cardElement = document.createElement('div');
+                
+                // 设置卡牌样式
+                let cardClasses = 'p-4 rounded-lg text-center card-hover break-words h-full flex flex-col justify-center';
+                let textClasses = `font-bold ${cardInfo.color}`;
+                
+                // 特殊卡牌样式
+                if (cardInfo.bgColor) {
+                    cardClasses += ` ${cardInfo.bgColor}`;
+                } else {
+                    cardClasses += ' bg-gray-800 border border-gray-700';
+                }
+                
+                // 添加稀有度标识
+                let rarityBadge = '';
+                if (cardInfo.rarity) {
+                    rarityBadge = `<div class="text-xs mb-2 ${cardInfo.color}">${cardInfo.rarity}</div>`;
+                }
+                
+                cardElement.className = cardClasses;
+                cardElement.innerHTML = `${rarityBadge}<div class="${textClasses}">${card}</div>`;
+                elements.resultCardGrid.appendChild(cardElement);
+            });
+            
+            // 显示结果弹窗
+            elements.resultModal.style.display = 'flex';
+        }
+
+        // 单抽功能
+        function singleDraw() {
+            if (gameData.spirit < 2) {
+                alert('灵不足，无法进行单抽！');
+                return;
+            }
+            
+            // 添加按钮点击反馈
+            elements.singleDrawBtn.classList.add('active');
+            setTimeout(() => elements.singleDrawBtn.classList.remove('active'), 200);
+            
+            // 消耗灵
+            gameData.spirit -= 2;
+            gameData.drawCount++;
+            
+            // 抽取卡牌
+            let cards = [drawNormalCard()];
+            cards = checkSpecialCard(cards);
+            cards = checkLastWordCard(cards, true);
+            cards = checkSSRGuarantee(cards);
+            
+            // 更新收集和返还
+            const { refund, newCards } = updateCollectedCards(cards);
+            
+            // 更新UI和显示结果
+            updateUI();
+            showDrawResult(cards, refund, newCards);
+        }
+
+        // 十连抽功能
+        function tenDraws() {
+            if (gameData.spirit < 20) {
+                alert('灵不足，无法进行十连抽！');
+                return;
+            }
+            
+            // 添加按钮点击反馈
+            elements.tenDrawBtn.classList.add('active');
+            setTimeout(() => elements.tenDrawBtn.classList.remove('active'), 200);
+            
+            // 消耗灵
+            gameData.spirit -= 20;
+            gameData.drawCount += 10;
+            
+            // 抽取卡牌
+            let cards = [];
+            for (let i = 0; i < 10; i++) {
+                cards.push(drawNormalCard());
+            }
+            
+            cards = checkSpecialCard(cards);
+            cards = checkLastWordCard(cards, false);
+            cards = checkTenDrawGuarantee(cards);
+            cards = checkSSRGuarantee(cards);
+            
+            // 更新收集和返还
+            const { refund, newCards } = updateCollectedCards(cards);
+            
+            // 更新UI和显示结果
+            updateUI();
+            showDrawResult(cards, refund, newCards);
+        }
+
+        // 显示卡牌图鉴
+        function showCardAlbum() {
+            // 添加按钮点击反馈
+            elements.albumBtn.classList.add('active');
+            setTimeout(() => elements.albumBtn.classList.remove('active'), 200);
+            
+            elements.albumContent.innerHTML = '';
+            
+            // 按稀有度分组
+            const rarityGroups = {
+                "SSR": [],
+                "SR": [],
+                "R": [],
+                "LAST WORD": [],
+                "???": []
+            };
+            
+            Object.keys(gameData.collectedCards).forEach(card => {
+                const rarity = gameData.cards[card].rarity;
+                if (rarityGroups[rarity]) {
+                    rarityGroups[rarity].push(card);
+                }
+            });
+            
+            // 生成图鉴内容
+            const rarities = ["SSR", "SR", "R", "LAST WORD", "???"];
+            rarities.forEach(rarity => {
+                if (rarityGroups[rarity].length > 0) {
+                    const groupElement = document.createElement('div');
+                    
+                    // 标题样式
+                    let titleClasses = `text-lg font-bold mb-2`;
+                    let cardClasses = '';
+                    
+                    // 特殊卡牌样式
+                    if (rarity === "LAST WORD") {
+                        titleClasses += ' text-white bg-black px-2 inline-block';
+                        cardClasses = 'text-white bg-black px-1 rounded';
+                    } else if (rarity === "???") {
+                        titleClasses += ' text-black bg-white px-2 inline-block';
+                        cardClasses = 'text-black bg-white px-1 rounded';
+                    } else {
+                        titleClasses += ` text-${rarity.toLowerCase() === 'sr' ? 'purple-400' : 
+                                          rarity.toLowerCase() === 'ssr' ? 'yellow-400' : 'blue-400'}`;
+                        cardClasses = `text-${rarity.toLowerCase() === 'sr' ? 'purple-400' : 
+                                      rarity.toLowerCase() === 'ssr' ? 'yellow-400' : 'blue-400'}`;
+                    }
+                    
+                    groupElement.innerHTML = `
+                        <h4 class="${titleClasses}">【${rarity}】</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-4">
+                            ${rarityGroups[rarity].sort().map(card => `
+                                <div class="flex justify-between items-center">
+                                    <span class="${cardClasses}">${card}</span>
+                                    <span class="text-gray-400">×${gameData.collectedCards[card]}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    
+                    elements.albumContent.appendChild(groupElement);
+                }
+            });
+            
+            // 如果没有收集任何卡牌
+            if (Object.keys(gameData.collectedCards).length === 0) {
+                elements.albumContent.innerHTML = '<p class="text-gray-400 text-center py-6">尚未收集任何卡牌</p>';
+            }
+            
+            elements.albumModal.classList.remove('hidden');
+        }
+
+        // 处理密令输入
+        function handleCommand() {
+            // 添加按钮点击反馈
+            elements.confirmCommand.classList.add('active');
+            setTimeout(() => elements.confirmCommand.classList.remove('active'), 200);
+            
+            const command = elements.commandInput.value.trim();
+            if (!command) return;
+            
+            if (gameData.characters[command]) {
+                const spiritGain = gameData.characters[command];
+                gameData.spirit += spiritGain;
+                updateUI();
+                alert(`获得${spiritGain}灵！`);
+                elements.commandModal.classList.add('hidden');
+                elements.commandInput.value = '';
+            } else {
+                alert('无效的密令');
+            }
+        }
+
+        // 事件监听
+        function setupEventListeners() {
+            // 抽卡按钮
+            elements.singleDrawBtn.addEventListener('click', singleDraw);
+            elements.tenDrawBtn.addEventListener('click', tenDraws);
+            
+            // 密令相关
+            elements.commandBtn.addEventListener('click', () => {
+                // 添加按钮点击反馈
+                elements.commandBtn.classList.add('active');
+                setTimeout(() => elements.commandBtn.classList.remove('active'), 200);
+                
+                elements.commandModal.classList.remove('hidden');
+                elements.commandInput.focus();
+            });
+            
+            elements.confirmCommand.addEventListener('click', handleCommand);
+            elements.cancelCommand.addEventListener('click', () => {
+                // 添加按钮点击反馈
+                elements.cancelCommand.classList.add('active');
+                setTimeout(() => elements.cancelCommand.classList.remove('active'), 200);
+                
+                elements.commandModal.classList.add('hidden');
+                elements.commandInput.value = '';
+            });
+            
+            // 卡牌图鉴
+            elements.albumBtn.addEventListener('click', showCardAlbum);
+            elements.closeAlbum.addEventListener('click', () => {
+                // 添加按钮点击反馈
+                elements.closeAlbum.classList.add('active');
+                setTimeout(() => elements.closeAlbum.classList.remove('active'), 200);
+                
+                elements.albumModal.classList.add('hidden');
+            });
+            
+            // 概率说明
+            elements.probBtn.addEventListener('click', () => {
+                // 添加按钮点击反馈
+                elements.probBtn.classList.add('active');
+                setTimeout(() => elements.probBtn.classList.remove('active'), 200);
+                
+                elements.probModal.classList.remove('hidden');
+            });
+            
+            elements.closeProb.addEventListener('click', () => {
+                // 添加按钮点击反馈
+                elements.closeProb.classList.add('active');
+                setTimeout(() => elements.closeProb.classList.remove('active'), 200);
+                
+                elements.probModal.classList.add('hidden');
+            });
+            
+            // 键盘事件
+            document.addEventListener('keydown', (e) => {
+                // ESC键关闭所有模态框
+                if (e.key === 'Escape') {
+                    elements.commandModal.classList.add('hidden');
+                    elements.albumModal.classList.add('hidden');
+                    elements.probModal.classList.add('hidden');
+                    elements.resultModal.classList.add('hidden');
+                    elements.commandInput.value = '';
+                }
+                
+                if (e.key === 'Enter' && !elements.commandModal.classList.contains('hidden')) {
+                    handleCommand();
+                }
+            });
+        }
+
+        // 初始化游戏
+        function initGame() {
+            initCardPool();
+            updateUI();
+            setupEventListeners();
+        }
+
+        // 启动游戏
+        window.addEventListener('DOMContentLoaded', initGame);
     </script>
 </body>
 </html>
-    
